@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <h1> TODOアプリ</h1>
+    <label for="name">タスク名：</label>
+    <input type="text" v-model="name">
+    <label for="time">推定時間（分）：</label>
+    <input type="text" v-model="time">
+    <button @click="add">追加</button>
+    <view-task v-bind:tasks="tasks"></view-task>
+  </div>
+  <script>
+    Vue.component('viewTask',{
+      props:['tasks'],
+      template:`
+      <table>
+        <tr>
+          <th>タスク</th>
+          <th>推定時間</th>
+        </tr>
+        <tr v-for="task in tasks">
+          <td>{{task.name}}</td>
+          <td>{{task.time}}分</td>
+        </tr>
+      </table>`
+    }),
+    new Vue({
+      el: '#app',
+      data:{
+        name:'',
+        time:'',
+        tasks:[]
+      },
+      methods:{
+        add:function(){
+          this.tasks.push({name:this.name, time:this.time});
+          this.name="";
+          this.time="";
+        }
+      }
+    });
+  </script>
+</body>
+</html>
